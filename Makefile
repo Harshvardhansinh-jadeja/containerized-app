@@ -4,7 +4,7 @@ export TF_VAR_profile?=harshvardhan
 export TF_VAR_environment=sandbox
 export ssm_env?=sandbox
 INFRA:= Infrastructure
-SCRIPT=Infrastructure/environment/
+PATH=Infrastructure/environment/
 
 hello_world:
 	@echo "Hello world"
@@ -84,4 +84,7 @@ else
 endif
 
 tg-plan:
-	@cd $(SCRIPT)/$(env) && terragrunt plan
+	@cd $(PATH)/$(env) && terragrunt plan
+
+fmt:
+	@terraform fmt -check -recursive
