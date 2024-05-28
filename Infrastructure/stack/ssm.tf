@@ -1,16 +1,3 @@
-# resource "aws_ssm_parameter" "username" {
-#   name = "/harshvardhan/sandbox/rds/username"
-#   type = "SecureString"
-#   value = var.username
-# }
-
-# resource "aws_ssm_parameter" "password" {
-#   name = "/harshvardhan/sandbox/rds/password"
-#   type = "SecureString"
-#   value = var.password
-# }
-
-
 # Optinal Now as we are using SSM parameters in Github Pipeline
 data "aws_ssm_parameter" "username" {
   name = "/harshvardhan/${var.environment}/rds/username"

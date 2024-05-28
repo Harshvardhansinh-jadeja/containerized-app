@@ -4,6 +4,7 @@ export TF_VAR_profile?=harshvardhan
 export TF_VAR_environment=sandbox
 export ssm_env?=sandbox
 INFRA:= Infrastructure
+PATH=Infrastructure/environment/
 
 hello_world:
 	@echo "Hello world"
@@ -81,3 +82,9 @@ ifeq ($(profile),)
 else
 	@aws ecr describe-repositories --repository-names $(name) --profile $(profile)
 endif
+
+tg-plan:
+	@cd $(PATH)/$(env) && terragrunt plan
+
+fmt:
+	@terragrunt fmt -recursive
