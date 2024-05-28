@@ -87,4 +87,4 @@ tg-plan:
 	@cd $(PATH)/$(env) && terragrunt plan
 
 fmt:
-	@terraform fmt -check -recursive
+	@terragrunt fmt -recursive
