@@ -4,4 +4,3 @@ module "harshvardhan-igw" {
   vpc    = module.harshvardhan-vpc.vpc_id
   name   = "${var.environment}-igw"
 }
-# comment

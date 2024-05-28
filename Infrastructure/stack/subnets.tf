@@ -1,22 +1,3 @@
-# module "harshvardhan-public-subnets" {
-#   count = 3
-#   source = "../modules/subnets"
-#   vpc_id = module.harshvardhan-vpc.vpc_id
-#   az =  var.az[count.index]
-#   name = "${var.environment}-public-subnet-${count.index}"
-#   cidr = var.public_subnets[count.index]
-#   map_ip = true
-# }
-# module "harshvardhan-private-subnets" {
-#   count = 3
-#   source = "../modules/subnets"
-#   vpc_id = module.harshvardhan-vpc.vpc_id
-#   az =  var.az[count.index]
-#   name = "${var.environment}-private-subnet-${count.index}"
-#   cidr = var.private_subnets[count.index]
-# }
-
-
 # Module for Subnets.
 module "harshvardhan-pub-sub-1" {
   source = "../modules/subnets"
