@@ -1,6 +1,6 @@
 # Alarm For Redirect URL
 module "redirct_url_alarm" {
-  source       = "./modules/cloudwatch"
+  source       = "../modules/cloudwatch"
   depends_on   = [module.send_mail_redirect]
   name         = "redirect_url_alarm"
   evaluation   = 1
@@ -19,7 +19,7 @@ module "redirct_url_alarm" {
 
 # Alarm For 5XX Errors.
 module "bad_request_alarm" {
-  source       = "./modules/cloudwatch"
+  source       = "../modules/cloudwatch"
   depends_on   = [module.send_mail_redirect]
   name         = "503_Temporary"
   evaluation   = 1

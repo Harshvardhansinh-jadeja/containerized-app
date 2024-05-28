@@ -1,6 +1,6 @@
 # Module for creating RDS Instance.
 module "harshvardhan-rds" {
-  source              = "./modules/rds"
+  source              = "../modules/rds"
   name                = "${var.environment}-rds"
   instance_class      = "db.t3.micro"
   storage_type        = "gp2"

@@ -4,5 +4,5 @@ include {
 }
 
 terraform {
-    source = "../../"
+    source = "../..//stack/"
 }

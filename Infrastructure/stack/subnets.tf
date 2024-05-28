@@ -1,6 +1,6 @@
 # module "harshvardhan-public-subnets" {
 #   count = 3
-#   source = "./modules/subnets"
+#   source = "../modules/subnets"
 #   vpc_id = module.harshvardhan-vpc.vpc_id
 #   az =  var.az[count.index]
 #   name = "${var.environment}-public-subnet-${count.index}"
@@ -9,7 +9,7 @@
 # }
 # module "harshvardhan-private-subnets" {
 #   count = 3
-#   source = "./modules/subnets"
+#   source = "../modules/subnets"
 #   vpc_id = module.harshvardhan-vpc.vpc_id
 #   az =  var.az[count.index]
 #   name = "${var.environment}-private-subnet-${count.index}"
@@ -19,7 +19,7 @@
 
 # Module for Subnets.
 module "harshvardhan-pub-sub-1" {
-  source = "./modules/subnets"
+  source = "../modules/subnets"
   vpc_id = module.harshvardhan-vpc.vpc_id
   az     = "us-west-2a"
   name   = "${var.environment}-public-subnet-1"
@@ -29,7 +29,7 @@ module "harshvardhan-pub-sub-1" {
 
 # Public Subnet
 module "harshvardhan-pub-sub-2" {
-  source = "./modules/subnets"
+  source = "../modules/subnets"
   vpc_id = module.harshvardhan-vpc.vpc_id
   az     = "us-west-2b"
   name   = "${var.environment}-public-subnet-2"
@@ -39,7 +39,7 @@ module "harshvardhan-pub-sub-2" {
 
 # Public Subnet
 module "harshvardhan-pub-sub-3" {
-  source = "./modules/subnets"
+  source = "../modules/subnets"
   vpc_id = module.harshvardhan-vpc.vpc_id
   az     = "us-west-2c"
   name   = "${var.environment}-public-subnet-3"
@@ -49,7 +49,7 @@ module "harshvardhan-pub-sub-3" {
 
 # Private Subnet
 module "harshvardhan-private-sub-1" {
-  source = "./modules/subnets"
+  source = "../modules/subnets"
   vpc_id = module.harshvardhan-vpc.vpc_id
   az     = "us-west-2a"
   name   = "${var.environment}-private-subnet-1"
@@ -58,7 +58,7 @@ module "harshvardhan-private-sub-1" {
 
 # Private Subnet
 module "harshvardhan-private-sub-2" {
-  source = "./modules/subnets"
+  source = "../modules/subnets"
   vpc_id = module.harshvardhan-vpc.vpc_id
   az     = "us-west-2b"
   name   = "${var.environment}-private-subnet-2"
@@ -67,7 +67,7 @@ module "harshvardhan-private-sub-2" {
 
 # Private Subnet
 module "harshvardhan-private-sub-3" {
-  source = "./modules/subnets"
+  source = "../modules/subnets"
   vpc_id = module.harshvardhan-vpc.vpc_id
   az     = "us-west-2c"
   name   = "${var.environment}-private-subnet-3"

@@ -1,6 +1,6 @@
 # Load Balancer Security group
 module "harshvardhan-alb-sg" {
-  source = "./modules/security-group"
+  source = "../modules/security-group"
   name   = "${var.environment}-alb-sg"
   desc   = "Application Load balancer"
   vpc    = module.harshvardhan-vpc.vpc_id
@@ -27,7 +27,7 @@ module "harshvardhan-alb-sg" {
 
 # ECS Security group
 module "harshvardhan-ecs-sg" {
-  source = "./modules/security-group"
+  source = "../modules/security-group"
   name   = "${var.environment}-ecs-sg"
   desc   = "Elastic Container service group"
   vpc    = module.harshvardhan-vpc.vpc_id
@@ -54,7 +54,7 @@ module "harshvardhan-ecs-sg" {
 
 # Security group for RDS
 module "harshvardhan-RDS-sg" {
-  source = "./modules/security-group"
+  source = "../modules/security-group"
   name   = "${var.environment}-RDS-sg"
   desc   = "Relational Database System"
   vpc    = module.harshvardhan-vpc.vpc_id
@@ -81,7 +81,7 @@ module "harshvardhan-RDS-sg" {
 
 # Security group for Bastion Host EC2
 module "harshvardhan-bastion-sg" {
-  source = "./modules/security-group"
+  source = "../modules/security-group"
   name   = "${var.environment}-bastion-sg"
   desc   = "Bastion Host for SSH access"
   vpc    = module.harshvardhan-vpc.vpc_id

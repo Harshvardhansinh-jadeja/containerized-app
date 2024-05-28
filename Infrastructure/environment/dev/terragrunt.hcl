@@ -25,5 +25,5 @@ EOF
 }
 
 terraform {
-    source = "../../"
+  source = "../..//stack/"
 }

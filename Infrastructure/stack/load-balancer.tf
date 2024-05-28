@@ -1,6 +1,6 @@
 # Module for Load balancer.
 module "harshvardhan-alb" {
-  source          = "./modules/load-balancer"
+  source          = "../modules/load-balancer"
   name            = "${var.environment}-alb-service"
   internal        = false
   lb_type         = "application"
