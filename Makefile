@@ -1,18 +1,17 @@
 SHELL=/bin/bash
 .DEFAULT_GOAL := plan
 
-export TF_VAR_profile?=sandbox
-export TF_VAR_environment=sandbox
-export ssm_env?=sandbox
 INFRA= Infrastructure
 _AWS_REGION=us-west-2
-env=dev
-TERRAGRUNT_PATH=Infrastructure/environment/$(env)
+_ENV?=dev
+TERRAGRUNT_PATH=Infrastructure/environment/$(_ENV)
 profile=sandbox
 
 .EXPORT_ALL_VARIABLES:
-TF_VAR_env=$(env)
+TF_VAR_env=$(_ENV)
 TF_VAR_profile=$(profile)
+ssm_env?=sandbox
+TF_VAR_environment=sandbox
 TF_VAR_aws_region=$(_AWS_REGION)
 TF_VAR_tf_bucket=harshvardhan-terragrunt
 
