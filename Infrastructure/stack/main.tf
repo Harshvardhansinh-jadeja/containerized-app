@@ -17,7 +17,7 @@ provider "aws" {
     tags = {
       createdBy = "Terraform"
       Team      = "TechHolding"
-      env= var.env
+      env       = var.env
 
     }
   }

@@ -2,9 +2,9 @@ remote_state {
   backend = "s3"
 
   config = {
-    bucket  = "${local.tf_bucket}"
+    bucket  = local.tf_bucket
     key     = "${path_relative_to_include()}/${local.env}/terraform.tfstate"
-    region  = "${local.aws_region}"
+    region  = local.aws_region
     profile = local.aws_profile
   }
 }
