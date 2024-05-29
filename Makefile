@@ -1,61 +1,67 @@
-.DEFAULT_GOAL := hello_world
+SHELL=/bin/bash
+.DEFAULT_GOAL := plan
 
-export TF_VAR_profile?=harshvardhan 
-export TF_VAR_environment=sandbox
-export ssm_env?=sandbox
-INFRA:= Infrastructure
-PATH=Infrastructure/environment/
+INFRA= Infrastructure
+_AWS_REGION=us-west-2
+_ENV?=dev
+TERRAGRUNT_PATH=Infrastructure/environment/$(_ENV)
+profile=sandbox
 
-hello_world:
-	@echo "Hello world"
+.EXPORT_ALL_VARIABLES:
+TF_VAR_env=$(_ENV)
+TF_VAR_profile=$(profile)
+ssm_env?=sandbox
+TF_VAR_environment=sandbox
+TF_VAR_aws_region=$(_AWS_REGION)
+TF_VAR_tf_bucket=harshvardhan-terragrunt
 
-Infra_Plan: workspace format validate plan 
+## login into AWS SSO for AWS CLI
+sso:
+	@aws sso login --profile $(profile)
 
-destroy:
-	terraform destroy -auto-approve
+## terraform commands
+init-upgrade: tf
+	@cd $(TERRAGRUNT_PATH) && terragrunt init --upgrade
 
-init_backend:
-	cd Infrastructure; \
-	terraform init -backend-config="$(backend).s3.tfbackend"
+init plan apply show destroy: tf
+	@cd $(TERRAGRUNT_PATH) && terragrunt $@
+# apply terraform wihtout asking input `yes`
+apply-ci:
+	@cd $(TERRAGRUNT_PATH) && terragrunt apply -auto-approve
+# remove tfstate file lock
+rmtflock: tf
+	@cd $(TERRAGRUNT_PATH) && terragrunt force-unlock $(lock_id)
+# run apply command for targeted resource
+tftarget:
+	@cd $(TERRAGRUNT_PATH) && terragrunt apply -target $(resource_id)
+tfdestroy:
+	@cd $(TERRAGRUNT_PATH) && terragrunt destroy -target $(resource_id)
+# show terraform outputs
+tfoutput:
+	@cd $(TERRAGRUNT_PATH) && terragrunt output --json 2> /dev/null
+# validate terraform code
+tfvalidate:
+	@cd $(shell make init 2>&1 |grep "working directory to" |awk '{print $$8}') && terraform validate
+# formating terraform and terragrunt code
+tfstate:
+	@cd $(TERRAGRUNT_PATH) && terragrunt state list
 
-init:
-	terraform init
+fmt:
+	@terraform fmt --recursive
+	@terragrunt hclfmt
+# import terraform resource
+tfimport:
+	@cd $(TERRAGRUNT_PATH) && terragrunt import $(resource_id) $(remote_resource_id)
+# install/set terraform and terragrunt version
+tf:
+	@tfswitch
+	@tgswitch
 
-workspace : 
-	cd Infrastructure; \
-	terraform workspace select ${workspace} 
+tfrmstate: 
+	@cd $(TERRAGRUNT_PATH) && terragrunt state rm $(resource_id)
 
-plan:
-	cd Infrastructure; \
-	terraform plan;
-
-	# cd Infrastructure; \
-	# ls -lart; \
-	# rm -rf .terraform*; \
-	# ls -lart; \
-	# terraform init -backend-config="$(backend).s3.tfbackend"; \
-	# ls -lart; \
-	# pwd; \
-	# sleep 10; \
-	# terraform state list; \
-	# # terraform destroy; \
-	# terraform apply -auto-approve
-
-apply:
-	cd Infrastructure; \
-	terraform apply -auto-approve
-
-target:
-	cd Infrastructure; \
-	terraform apply -target=${resource} -auto-approve
-
-format:
-	cd Infrastructure; \
-	terraform fmt -recursive
-
-validate:
-	cd Infrastructure; \
-	terraform validate
+tfstatemv:
+	@cd $(TERRAGRUNT_PATH) && terragrunt state mv $(source_resource_id) $(target_resource_id)
 
 docker: image_build image_push
 
@@ -82,9 +88,3 @@ ifeq ($(profile),)
 else
 	@aws ecr describe-repositories --repository-names $(name) --profile $(profile)
 endif
-
-tg-plan:
-	@cd $(PATH)/$(env) && terragrunt plan
-
-fmt:
-	@terragrunt fmt -recursive

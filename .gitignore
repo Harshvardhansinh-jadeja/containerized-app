@@ -2,7 +2,10 @@
 **/.terraform/*
 __pycache__
 .terraform.lock.hcl
+# Ignore every .terragrunt file except it's versioning.
 .terragrunt*
+!.terragrunt-version
+
 # .tfstate files
 *.tfstate
 *.tfstate.*

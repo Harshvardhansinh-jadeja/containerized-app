@@ -1,25 +1,17 @@
 remote_state {
   backend = "s3"
-  generate = {
-    path      = "backends.tf"
-    if_exists = "overwrite_terragrunt"
-  }
+
   config = {
-    bucket = "harshvardhan-terragrunt"
-    key = "${path_relative_to_include()}/sandbox/terraform.tfstate"
-    region = "us-west-2"
-    profile = "sandbox"
+    bucket  = local.tf_bucket
+    key     = "${path_relative_to_include()}/${local.env}/terraform.tfstate"
+    region  = local.aws_region
+    profile = local.aws_profile
   }
 }
 
-
-generate "provider" {
-  path = "mains.tf"
-  if_exists = "overwrite_terragrunt"
-  contents = <<EOF
-  provider "aws" {
-    region = "us-west-2"
-    profile="sandbox"
-  }
-EOF
+locals {
+  tf_bucket   = get_env("TF_VAR_tf_bucket")
+  env         = get_env("TF_VAR_env")
+  aws_profile = get_env("TF_VAR_profile")
+  aws_region  = get_env("TF_VAR_aws_region")
 }
