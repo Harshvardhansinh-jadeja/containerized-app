@@ -14,7 +14,7 @@
 PARAMS=("username" "password")
 REGION="us-west-2"
 PREFIX="/harshvardhan/$ssm_env/rds/"
-TFVARS_FILE="./Infrastructure/terraform.tfvars"
+TFVARS_FILE="Infrastructure/stack/terraform.tfvars"
 
 # Getting SSM Parameter and passing it into the tfvars file.
 for param in "${PARAMS[@]}"; do
