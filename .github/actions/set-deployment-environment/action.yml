@@ -1,0 +1,35 @@
+name: "Set Environment"
+
+# Creating Composite action for ECR creation and Login.
+description: "Set Deployment Environment"
+
+runs:
+  using: "composite"
+  steps:
+    - if: github.event_name == 'pull_request'
+      name: Set environment
+      run: | 
+        case ${{ github.event.pull_request.base.ref }} in
+          develop )
+            _env=dev
+            ;;
+          main )
+            _env=prod
+            ;;
+         esac
+        echo "_ENV=$_env" >> $GITHUB_ENV
+      shell: bash
+        
+    - if: github.event_name == 'push'
+      name: Set environment
+      run: | 
+        case $GITHUB_REF in
+          refs/heads/develop )
+            _env=dev
+            ;;
+          refs/heads/main )
+            _env=prod
+            ;;
+         esac
+        echo "_ENV=$_env" >> $GITHUB_ENV
+      shell: bash
