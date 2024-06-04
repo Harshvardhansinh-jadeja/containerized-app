@@ -6,6 +6,7 @@ _AWS_REGION=us-west-2
 _ENV?=dev
 TERRAGRUNT_PATH=Infrastructure/environment/$(_ENV)
 profile=sandbox
+SCRIPTS=Infrastructure/scripts
 
 .EXPORT_ALL_VARIABLES:
 TF_VAR_env=$(_ENV)
@@ -18,6 +19,10 @@ TF_VAR_tf_bucket=harshvardhan-terragrunt
 ## login into AWS SSO for AWS CLI
 sso:
 	@aws sso login --profile $(profile)
+
+## setup aws access for CICD
+awscli-ci:
+	@./$(SCRIPTS)/awscli
 
 ## terraform commands
 init-upgrade: tf
@@ -72,7 +77,7 @@ image_push:
 	docker push ${name}
 
 ssm:
-	bash ./scripts/ssm.sh
+	bash $(SCRIPTS)/ssm.sh
 
 
 ssm_param:

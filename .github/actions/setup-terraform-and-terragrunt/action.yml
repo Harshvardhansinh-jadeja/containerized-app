@@ -1,0 +1,19 @@
+name: "Setup version"
+
+# Creating Composite action for ECR creation and Login.
+description: "Set up terraform and terragrunt version."
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install tf and tg switch
+      run: |
+          rm -rf /usr/local/bin/terraform
+          curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | sudo bash
+          curl -L https://raw.githubusercontent.com/warrensbox/tgswitch/release/install.sh | sudo bash
+          sudo chown -R $USER /usr/local/bin/
+      shell: bash
+  
+    - name: Install and setup Terraform and Terragrunt version
+      run: make tf
+      shell: bash

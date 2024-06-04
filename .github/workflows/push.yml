@@ -1,0 +1,52 @@
+name: Deploy
+run-name: "${{ github.workflow }} | ${{ github.ref_name }}"
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - pipeline
+      
+# These permissions are needed to interact with GitHub's OIDC Token endpoint.      
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install & Setup Terraform-Terragrunt
+        uses: ./.github/actions/setup-terraform-and-terragrunt
+
+      - name: Set deployment environment
+        uses: ./.github/actions/set-deployment-environment
+
+      - name: Get AWS Region name
+        id: _AWS_REGION
+        run: |
+             echo "_AWS_REGION=$(sed -n 's/^_AWS_REGION=//p' Makefile)" >> $GITHUB_OUTPUT
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+             role-to-assume:  ${{secrets.OIDC_ROLE}}
+             role-session-name: ${{ github.event.repository.name }}_${{ github.base_ref}}_${{github.actor}}
+             aws-region: ${{ steps._AWS_REGION.outputs._AWS_REGION }}      
+
+      - name: Configure Awscli
+        run: |
+              make awscli-ci
+        env:
+              _AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+              _AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+              _AWS_SESSION_TOKEN: ${{ env.AWS_SESSION_TOKEN }}   
+              
+      - name: Bring SSM parameter
+        run: make ssm
+
+      - name: Deployment Plan
+        run: make plan

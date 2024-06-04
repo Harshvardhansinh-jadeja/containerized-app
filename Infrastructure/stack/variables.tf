@@ -14,6 +14,7 @@ variable "region" {
 # Elastic container Registry name
 variable "ecr_repo" {
   type = string
+  default="harshvardhan-repo"
 }
 
 # Container port to avail our app on that port and for tg.
@@ -25,13 +26,6 @@ variable "container-port" {
 # Egress rule block IP for accessing from anywhere on internet.
 variable "anywhere" {
   default = "0.0.0.0/0"
-}
-
-# Account id is used in ECS task definition for specify image.
-variable "account_id" {
-  # default = 831794387446
-  # default = 471112736114
-  sensitive = true
 }
 
 # Creating Local Image name.
@@ -92,6 +86,7 @@ variable "environment" {
 # Image tag to specify for pushing image.
 variable "tag" {
   type = string
+  default= "latest"
 }
 
 variable "env" {
