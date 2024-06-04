@@ -6,7 +6,7 @@ _AWS_REGION=us-west-2
 _ENV?=dev
 TERRAGRUNT_PATH=Infrastructure/environment/$(_ENV)
 profile=sandbox
-SCRIPTS=infrastructure/scripts
+SCRIPTS=Infrastructure/scripts
 
 .EXPORT_ALL_VARIABLES:
 TF_VAR_env=$(_ENV)
