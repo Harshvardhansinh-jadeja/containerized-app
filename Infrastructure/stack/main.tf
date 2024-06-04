@@ -26,3 +26,6 @@ provider "aws" {
 terraform {
   backend "s3" {}
 }
+
+# Bring account id from data source
+data "aws_caller_identity" "current" {}

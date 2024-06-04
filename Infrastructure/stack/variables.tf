@@ -28,13 +28,6 @@ variable "anywhere" {
   default = "0.0.0.0/0"
 }
 
-# Account id is used in ECS task definition for specify image.
-variable "account_id" {
-  # default = 831794387446
-  default = 843728461002
-  sensitive = true
-}
-
 # Creating Local Image name.
 variable "local-image" {
   type    = string
