@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - develop
+      - pipeline
       
 # These permissions are needed to interact with GitHub's OIDC Token endpoint.      
 permissions:
