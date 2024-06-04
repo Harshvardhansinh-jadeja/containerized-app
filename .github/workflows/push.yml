@@ -43,7 +43,10 @@ jobs:
         env:
               _AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
               _AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-              _AWS_SESSION_TOKEN: ${{ env.AWS_SESSION_TOKEN }}       
+              _AWS_SESSION_TOKEN: ${{ env.AWS_SESSION_TOKEN }}   
+              
+      - name: Bring SSM parameter
+        run: make ssm
 
       - name: Deployment Plan
         run: make plan
