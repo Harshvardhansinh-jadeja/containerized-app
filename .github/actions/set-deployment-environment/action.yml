@@ -10,7 +10,7 @@ runs:
       name: Set environment
       run: | 
         case ${{ github.event.pull_request.base.ref }} in
-          develop )
+          pipeline )
             _env=dev
             ;;
           main )
@@ -24,7 +24,7 @@ runs:
       name: Set environment
       run: | 
         case $GITHUB_REF in
-          refs/heads/develop )
+          refs/heads/pipeline )
             _env=dev
             ;;
           refs/heads/main )
