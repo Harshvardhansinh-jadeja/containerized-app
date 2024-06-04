@@ -35,10 +35,15 @@ jobs:
         with:
              role-to-assume:  ${{secrets.OIDC_ROLE}}
              role-session-name: ${{ github.event.repository.name }}_${{ github.base_ref}}_${{github.actor}}
-             aws-region: ${{ steps._AWS_REGION.outputs._AWS_REGION }}                        
-      
-      - name: Init 
-        run: make init
+             aws-region: ${{ steps._AWS_REGION.outputs._AWS_REGION }}      
+
+      - name: Configure Awscli
+        run: |
+              make awscli-ci
+        env:
+              _AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+              _AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+              _AWS_SESSION_TOKEN: ${{ env.AWS_SESSION_TOKEN }}       
 
       - name: Deployment Plan
         run: make plan

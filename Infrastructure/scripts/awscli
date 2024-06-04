@@ -1,0 +1,7 @@
+#!/bin/bash
+echo $profile
+### Configure base profile
+aws configure set aws_access_key_id $_AWS_ACCESS_KEY_ID --profile $profile
+aws configure set aws_secret_access_key $_AWS_SECRET_ACCESS_KEY --profile $profile
+aws configure set aws_session_token $_AWS_SESSION_TOKEN --profile $profile
+aws configure set region $_AWS_REGION --profile $profile
