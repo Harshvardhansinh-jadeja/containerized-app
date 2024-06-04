@@ -33,7 +33,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-             role-to-assume:  ${{ secrets[format('{0}_AWS_GITHUB_OIDC_ROLE_ARN', env._ENV)] }} #IAM Role ARN
+             role-to-assume:  ${{ secrets.OIDC_ROLE }} #IAM Role ARN
              role-session-name: ${{ github.event.repository.name }}_${{ github.base_ref}}_${{github.actor}}
              aws-region: ${{ steps._AWS_REGION.outputs._AWS_REGION }}
      
@@ -79,9 +79,3 @@ jobs:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1 
-
-  infrastructure-cost-estimation:
-    uses: ./.github/workflows/terraform_infra_cost.yml
-    secrets:
-      INFRACOST_API_KEY: ${{ secrets['INFRACOST_API_KEY'] }}
-
