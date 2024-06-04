@@ -37,5 +37,8 @@ jobs:
              role-session-name: ${{ github.event.repository.name }}_${{ github.base_ref}}_${{github.actor}}
              aws-region: ${{ steps._AWS_REGION.outputs._AWS_REGION }}                        
       
+      - name: Init 
+        run: make init
+
       - name: Deployment Plan
         run: make plan
